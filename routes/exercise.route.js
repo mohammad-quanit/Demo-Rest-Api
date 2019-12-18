@@ -19,8 +19,8 @@ router.route('/:id').get((req, res) => {
 // Delete Exercise by ID delete request
 router.route('/:id').delete((req, res) => {
   Exercise.findByIdAndDelete(req.params.id)
-    .then(exercise => res.status(200).json(`${exercise}`))
-    .catch(err => res.status(400).json(`${err}`));
+    .then(exercise => res.status(200).json(exercise))
+    .catch(err => res.status(400).json(err));
 });
 
 // Update Exercise by ID put request
@@ -36,8 +36,8 @@ router.route('/update/:id').put((req, res) => {
     date
   };
   Exercise.findByIdAndUpdate(req.params.id, { $set: updatedExercise })
-    .then(exercise => res.status(200).json(`${exercise}`))
-    .catch(err => res.status(400).json(`${err}`));
+    .then(exercise => res.status(200).json(exercise))
+    .catch(err => res.status(400).json(err));
 });
 
 // Exercises post request
