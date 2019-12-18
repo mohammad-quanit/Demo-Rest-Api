@@ -35,7 +35,11 @@ router.route('/update/:id').put((req, res) => {
     duration,
     date
   };
-  Exercise.findByIdAndUpdate(req.params.id, { $set: updatedExercise })
+  Exercise.findByIdAndUpdate(
+    req.params.id,
+    { $set: updatedExercise },
+    { new: true }
+  )
     .then(exercise => res.status(200).json(exercise))
     .catch(err => res.status(400).json(err));
 });
