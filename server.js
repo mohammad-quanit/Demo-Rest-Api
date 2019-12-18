@@ -31,4 +31,11 @@ connection.once('open', () =>
 app.use('/exercises', exerciseRoute);
 app.use('/users', userRoute);
 
+let introHtml = `
+<h1>Welcome to Demo CRUD Api's</h1>
+<h3>Go to <a href="https://crud-demo-api.herokuapp.com/exercises">https://crud-demo-api.herokuapp.com/exercises</a> for any demo Todo list</h3>
+<h3>Go to <a href="https://crud-demo-api.herokuapp.com/exercises">https://crud-demo-api.herokuapp.com/users</a> for any demo User list</h3>
+`;
+app.get('/', (req, res) => res.send(introHtml));
+
 app.listen(port, () => console.log(`Server is running on ${port}`));
