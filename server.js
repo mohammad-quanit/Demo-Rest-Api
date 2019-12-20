@@ -28,8 +28,8 @@ connection.once('open', () =>
 //   console.log('Successfully connected to Mongoose')
 // });
 
-// app.use('/exercises', exerciseRoute);
-// app.use('/users', userRoute);
+app.use('/exercises', exerciseRoute);
+app.use('/users', userRoute);
 app.use('/chartData', require('./routes/chartData.route'));
 
 let introHtml = `
