@@ -42,10 +42,12 @@ let introHtml = `
 `;
 
 app.post('/upload', upload.array('file') ,(req, res) => {
-  console.log(req.files);
-  res.json({ file: req.files });
+  // console.log(req.files);
+  let file = req.files.map(file => file.url = `${req.protocol}://${req.get('host')}/upload/${file.filename}`);
+  console.log(file);
+  res.json({ file: file });
 });
-app.use('/images', express.static(__dirname + '/uploads/'));
+app.use('/upload', express.static(__dirname + '/upload/'));
 
 app.get('/', (req, res) => res.send(introHtml));
 
