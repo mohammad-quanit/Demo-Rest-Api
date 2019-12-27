@@ -44,7 +44,7 @@ let introHtml = `
 app.post('/upload', upload.array('file') ,(req, res) => {
   // console.log(req.files);
   let file = req.files.map(file => file.url = `${req.protocol}://${req.get('host')}/upload/${file.filename}`);
-  console.log(file);
+  console.log(file)
   res.json({ file: file });
 });
 app.use('/upload', express.static(__dirname + '/upload/'));
