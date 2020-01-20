@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+
 let Exercise = require('../models/exercise.model');
 
 // Exercises get request
@@ -58,8 +59,16 @@ router.route('/add').post((req, res) => {
   });
   newExercise
     .save()
-    .then(exercise => res.status(200).json(exercise))
-    .catch(err => res.status(400).json(err));
+    .then(exercise => {
+      // logger.warn(`${JSON.stringify(exercise)} succesfully added.`);
+      // logger.info(`${JSON.stringify(exercise)} succesfully added.`)
+      return res.status(200).json(exercise);
+    })
+    .catch(err => {
+      errLogger.level = 'error';
+      errLogger.debug(err);
+      res.status(400).json(err)
+    });
 });
 
 module.exports = router;

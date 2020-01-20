@@ -33,6 +33,7 @@ connection.once('open', () =>
 app.use('/exercises', require('./routes/exercise.route'));
 app.use('/users', require('./routes/user.route'));
 app.use('/chartData', require('./routes/chartData.route'));
+app.use("/logs", require("./routes/logs.route"))
 
 
 let introHtml = `
