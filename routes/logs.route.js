@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const fs = require('fs');
 // const winston = require('winston');
 // const logConfig = {
 //   'transports': [
@@ -9,21 +10,21 @@ const router = require('express').Router();
 // }
 // const logger = winston.createLogger(logConfig);
 
-
 var log4js = require('log4js');
 
 log4js.configure({
-  appenders: {fileAppender: {type: 'file', filename: './logs/alertNotes.log'}},
-  categories: {default: {appenders: ['fileAppender'], level: 'info'}}
-})
+  appenders: {everything: { type: 'dateFile', filename: './logs/all-the-logs.log' }
+  },
+  categories: {
+    default: { appenders: [ 'everything' ], level: 'debug' }
+  }
+});
 
 const logger = log4js.getLogger();
 
 router.route('/').post((req, res) => {
   logger.info(`${JSON.stringify(req.body.notetext)} succesfully added/Updated.`);
-  // logger.info(`${JSON.stringify(exercise)} succesfully added.`)
   return res.status(200).json(req.body.notetext);
 });
-
 
 module.exports = router;
