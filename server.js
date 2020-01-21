@@ -8,6 +8,7 @@ const upload = require("./configurations/multer.config");
 const appRoutes = require('./routes');
 
 
+
 const port = process.env.PORT || 5500;
 const app = express();
 const server = app.listen(port, () => console.log(`Server is running on ${port}`))
