@@ -22,10 +22,14 @@ connection.once('open', () =>
 );
 
 socketInstance.on("connection", socket => {
-  console.log(`A user connected on ${socket.id}`);
-  socket.on("first", client => {
-    console.log(client);
-  })
+  // console.log('a user connected');
+  socket.on('disconnect', function () {
+      console.log('user disconnected');
+  });
+  socket.on('chat', function (msg) {
+    socket.broadcast.emit('chat', msg);
+    console.log(msg)
+  });
 });
 
 app.post('/upload', upload.array('file') ,(req, res) => {
