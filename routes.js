@@ -1,5 +1,6 @@
 const appRoutes = require('express')();
 
+appRoutes.use(require('./routes/index.route'));
 appRoutes.use('/exercises', require('./routes/exercise.route'));
 appRoutes.use('/users', require('./routes/user.route'));
 appRoutes.use('/chartData', require('./routes/chartData.route'));

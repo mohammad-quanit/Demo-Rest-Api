@@ -7,14 +7,13 @@
 //   ]
 // }
 // const logger = winston.createLogger(logConfig);
-
 var log4js = require('log4js');
 
 log4js.configure({
   appenders: {
     everything: {
       type: 'dateFile',
-      filename: './logs/loggers.log',
+      filename: './logs/loggings.log',
       keepFileExt: true
     }
   },
