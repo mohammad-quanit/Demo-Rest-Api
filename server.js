@@ -1,18 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const path = require('path');
+require('dotenv').config();
 
 const upload = require("./multer.config");
-
-
-
-require('dotenv').config();
+const appRoutes = require('./routes');
 const port = process.env.PORT || 5500;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(appRoutes);
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
@@ -30,10 +28,10 @@ connection.once('open', () =>
 //   console.log('Successfully connected to Mongoose')
 // });
 
-app.use('/exercises', require('./routes/exercise.route'));
-app.use('/users', require('./routes/user.route'));
-app.use('/chartData', require('./routes/chartData.route'));
-app.use("/logs", require("./routes/logs.route"))
+// app.use('/exercises', require('./routes/exercise.route'));
+// app.use('/users', require('./routes/user.route'));
+// app.use('/chartData', require('./routes/chartData.route'));
+// app.use("/logs", require("./routes/logs.route"))
 
 
 let introHtml = `
