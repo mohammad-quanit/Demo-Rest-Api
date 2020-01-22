@@ -32,7 +32,7 @@ app.post('/tmp/upload', upload.array('file') ,(req, res) => {
   console.log(file)
   res.json({ file });
 });
-app.use('./tmp/upload', express.static(__dirname + '/tmp/upload/'));
+app.use('/tmp/upload', express.static(__dirname + '/tmp/upload/'));
 
 let introHtml = `
   <h1>Welcome to Demo CRUD Api's</h1>
