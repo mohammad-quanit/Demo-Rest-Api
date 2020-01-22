@@ -16,8 +16,6 @@ const socketInstance = socket(server);
 app.use(express.json());
 // preventing cors issues
 app.use(cors());
-// app routes
-app.use(appRoutes);
 // app headers
 app.use(headers);
 // global error handler
@@ -45,6 +43,8 @@ app.post('/upload', upload.array('file') ,(req, res) => {
 });
 app.use('/upload', express.static(__dirname + '/upload/'));
 
+// app routes
+app.use(appRoutes);
 
 // ****** another way to connect to mongo ********//
 // mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true }, (err) => {
