@@ -2,21 +2,26 @@ const express = require('express');
 const cors = require('cors');
 const socket = require("socket.io")
 require('dotenv').config();
-
-const connection = require("./configurations/mongoose.config")
-const upload = require("./configurations/multer.config");
+const errorHandler = require("./middlewares/errorHandler");
+const headers = require("./headers");
+const connection = require("./middlewares/mongoose.config")
+const upload = require("./middlewares/multer");
 const appRoutes = require('./routes');
-
-
 
 const port = process.env.PORT || 5500;
 const app = express();
 const server = app.listen(port, () => console.log(`Server is running on ${port}`))
 const socketInstance = socket(server);
 
-app.use(cors());
 app.use(express.json());
+// preventing cors issues
+app.use(cors());
+// app routes
 app.use(appRoutes);
+// app headers
+app.use(headers);
+// global error handler
+app.use(errorHandler);
 
 connection.once('open', () =>
   console.log('Successfully connected to Mongoose')
