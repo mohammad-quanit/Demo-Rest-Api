@@ -27,14 +27,12 @@ connection.once('open', () =>
   console.log('Successfully connected to Mongoose')
 );
 
-
-
-app.post('/app/upload', upload.array('file') ,(req, res) => {
-  let file = req.files.map(file => file.url = `${req.protocol}://${req.get('host')}/app/upload/${file.filename}`);
+app.post('/tmp/upload', upload.array('file') ,(req, res) => {
+  let file = req.files.map(file => file.url = `${req.protocol}://${req.get('host')}/tmp/upload/${file.filename}`);
   console.log(file)
   res.json({ file });
 });
-app.use('./app/upload', express.static(__dirname + '/app/upload/'));
+app.use('./tmp/upload', express.static(__dirname + '/tmp/upload/'));
 
 let introHtml = `
   <h1>Welcome to Demo CRUD Api's</h1>
