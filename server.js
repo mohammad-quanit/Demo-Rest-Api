@@ -8,7 +8,7 @@ const connection = require("./middlewares/mongoose.config")
 const upload = require("./middlewares/multer");
 const appRoutes = require('./routes');
 
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 80;
 const app = express();
 const server = app.listen(port, () => console.log(`Server is running on ${port}`))
 const socketInstance = socket(server);
