@@ -38,12 +38,12 @@ socketInstance.on("connection", socket => {
   });
 });
 
-app.post('/upload', upload.array('file') ,(req, res) => {
-  let file = req.files.map(file => file.url = `${req.protocol}://${req.get('host')}/upload/${file.filename}`);
-  console.log(file)
-  res.json({ file });
-});
-app.use('/upload', express.static(__dirname + '/upload/'));
+// app.post('/upload', upload.array('file') ,(req, res) => {
+//   let file = req.files.map(file => file.url = `${req.protocol}://${req.get('host')}/upload/${file.filename}`);
+//   console.log(file)
+//   res.json({ file });
+// });
+// app.use('/upload', express.static(__dirname + '/upload/'));
 
 let introHtml = `
   <h1>Welcome to Demo CRUD Api's</h1>
