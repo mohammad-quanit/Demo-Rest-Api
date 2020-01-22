@@ -18,8 +18,8 @@ app.use(express.json());
 app.use(cors());
 // app routes
 app.use(appRoutes);
-// app headers
-app.use(headers);
+// // app headers
+// app.use(headers);
 // global error handler
 app.use(errorHandler);
 
