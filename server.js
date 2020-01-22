@@ -10,8 +10,8 @@ const appRoutes = require('./routes');
 
 const port = process.env.PORT || 80;
 const app = express();
-const server = app.listen(port, () => console.log(`Server is running on ${port}`))
-const socketInstance = socket(server);
+
+
 
 app.use(express.json());
 // preventing cors issues
@@ -27,16 +27,7 @@ connection.once('open', () =>
   console.log('Successfully connected to Mongoose')
 );
 
-socketInstance.on("connection", socket => {
-  // console.log('a user connected');
-  socket.on('disconnect', function () {
-      console.log('user disconnected');
-  });
-  socket.on('chat', function (msg) {
-    socket.broadcast.emit('chat', msg);
-    console.log(msg)
-  });
-});
+
 
 // app.post('/upload', upload.array('file') ,(req, res) => {
 //   let file = req.files.map(file => file.url = `${req.protocol}://${req.get('host')}/upload/${file.filename}`);
@@ -51,9 +42,19 @@ let introHtml = `
   <h3>Go to <a href="https://crud-demo-api.herokuapp.com/users">https://crud-demo-api.herokuapp.com/users</a> for any demo User list</h3>
 `;
 
-app.get((req, res) => res.send(introHtml));
-
-
+app.get("/", (req, res) => res.send(introHtml));
+const server = app.listen(port, () => console.log(`Server is running on ${port}`))
+const socketInstance = socket(server);
+socketInstance.on("connection", socket => {
+  // console.log('a user connected');
+  socket.on('disconnect', function () {
+      console.log('user disconnected');
+  });
+  socket.on('chat', function (msg) {
+    socket.broadcast.emit('chat', msg);
+    console.log(msg)
+  });
+});
 
 // ****** another way to connect to mongo ********//
 // mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true }, (err) => {
