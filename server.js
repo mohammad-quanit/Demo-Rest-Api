@@ -16,6 +16,8 @@ const socketInstance = socket(server);
 app.use(express.json());
 // preventing cors issues
 app.use(cors());
+// app routes
+app.use(appRoutes);
 // app headers
 app.use(headers);
 // global error handler
@@ -43,8 +45,15 @@ app.post('/upload', upload.array('file') ,(req, res) => {
 });
 app.use('/upload', express.static(__dirname + '/upload/'));
 
-// app routes
-app.use(appRoutes);
+let introHtml = `
+  <h1>Welcome to Demo CRUD Api's</h1>
+  <h3>Go to <a href="https://crud-demo-api.herokuapp.com/exercises">https://crud-demo-api.herokuapp.com/exercises</a> for any demo Todo list</h3>
+  <h3>Go to <a href="https://crud-demo-api.herokuapp.com/users">https://crud-demo-api.herokuapp.com/users</a> for any demo User list</h3>
+`;
+
+app.get((req, res) => res.send(introHtml));
+
+
 
 // ****** another way to connect to mongo ********//
 // mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true }, (err) => {

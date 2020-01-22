@@ -1,7 +1,7 @@
 const appRoutes = require('express')();
 
 // main home route/endpoint
-appRoutes.use(require('./home/controller'));
+// appRoutes.use(require('./home/controller'));
 
 // User Authentication routes/endpoints
 appRoutes.use('/users', require('./users/controller'));
