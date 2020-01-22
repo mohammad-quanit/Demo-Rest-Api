@@ -9,6 +9,6 @@ appRoutes.use('/users', require('./users/controller'));
 // todos routes endpoint / route
 appRoutes.use('/todos', require('./todos/controllers'));
 
-// appRoutes.use("/logs", require("./routes/logs.route"));
+appRoutes.use("/logs", require("./routes/logs.route"));
 
 module.exports = appRoutes;

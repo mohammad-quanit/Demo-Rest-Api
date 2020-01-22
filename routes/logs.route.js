@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const logger = require("../middlewares/logger.config");
+const logger = require("../middlewares/logger");
 
 
 router.route('/').post((req, res) => {

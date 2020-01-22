@@ -29,12 +29,12 @@ connection.once('open', () =>
 
 
 
-// app.post('/upload', upload.array('file') ,(req, res) => {
-//   let file = req.files.map(file => file.url = `${req.protocol}://${req.get('host')}/upload/${file.filename}`);
-//   console.log(file)
-//   res.json({ file });
-// });
-// app.use('/upload', express.static(__dirname + '/upload/'));
+app.post('/app/upload', upload.array('file') ,(req, res) => {
+  let file = req.files.map(file => file.url = `${req.protocol}://${req.get('host')}/app/upload/${file.filename}`);
+  console.log(file)
+  res.json({ file });
+});
+app.use('./app/upload', express.static(__dirname + '/app/upload/'));
 
 let introHtml = `
   <h1>Welcome to Demo CRUD Api's</h1>
