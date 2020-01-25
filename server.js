@@ -8,7 +8,7 @@ const connection = require("./middlewares/mongoose.config")
 const upload = require("./middlewares/multer");
 const appRoutes = require('./routes');
 
-const port = process.env.PORT || 80;
+const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 const app = express();
 
 
