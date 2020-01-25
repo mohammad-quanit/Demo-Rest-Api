@@ -20,7 +20,7 @@ function users(req, res, next) {
 function register(req, res, next) {
   userService
     .createUser(req.body)
-    .then(() => res.json('User Registered Successfully'))
+    .then(data => res.status(200).json(data))
     .catch(err => {
       next(err);
       // res.json({ err });

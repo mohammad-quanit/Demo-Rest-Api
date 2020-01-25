@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const Users = require('../models');
 
 async function fetchUsers() {
@@ -14,7 +15,11 @@ async function createUser(userParam) {
   if (userParam.password) {
     user.password = bcrypt.hashSync(userParam.password, 10);
   }
-  return await user.save();
+  let token = jwt.sign(user.toObject(), process.env.JWT_SECRET_KEY, {
+    expiresIn: '1d'
+  });
+  let { role, _id, username, email } = await user.save();
+  return { _id, role, username, email, token };
 }
 
 async function loginUser(userParam) {
@@ -24,8 +29,12 @@ async function loginUser(userParam) {
   // checking if user is providing correct password
   if (!bcrypt.compareSync(userParam.password, user.password))
     throw `Please provide correct email or password!`;
-  const { password, ...userWithoutPW } = user.toObject();
-  return userWithoutPW;
+
+  let token = jwt.sign(user.toObject(), process.env.JWT_SECRET_KEY, {
+    expiresIn: '1d'
+  });
+  let { role, _id, username, email } = user.toObject();
+  return { _id, role, username, email, token };
 }
 
 module.exports = {
