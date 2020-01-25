@@ -19,7 +19,7 @@ app.use(cors());
 // app routes
 app.use(appRoutes);
 // // app headers
-// app.use(headers);
+app.use(headers);
 // global error handler
 app.use(errorHandler);
 
@@ -39,12 +39,12 @@ let introHtml = `
 `;
 
 app.get("/", (req, res) => res.send(introHtml));
-const server = app.listen(port, () => console.log(`Server is running on ${port}`))
+const server = app.listen(port, () => console.log(`Server is running on ${port}`));
 const socketInstance = socket(server);
 socketInstance.on("connection", socket => {
   // console.log('a user connected');
   socket.on('disconnect', function () {
-      console.log('user disconnected');
+    console.log('user disconnected');
   });
   socket.on('chat', function (msg) {
     socket.broadcast.emit('chat', msg);
