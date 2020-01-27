@@ -13,7 +13,7 @@ log4js.configure({
   appenders: {
     everything: {
       type: 'dateFile',
-      filename: './logs/loggings.log',
+      filename: '../tmp/logs/loggings.log',
       keepFileExt: true
     }
   },

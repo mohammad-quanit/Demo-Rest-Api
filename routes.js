@@ -1,14 +1,18 @@
 const appRoutes = require('express')();
 
 // main home route/endpoint
-// appRoutes.use(require('./home/controller'));
+appRoutes.use(require("./Modules/home/controller"));
 
 // User Authentication routes/endpoints
-appRoutes.use('/users', require('./users/controller'));
+appRoutes.use('/users', require('./Modules/users/controller'));
 
 // todos routes endpoint / route
-appRoutes.use('/todos', require('./todos/controllers'));
+appRoutes.use('/todos', require('./Modules/todos/controllers'));
 
-appRoutes.use("/logs", require("./routes/logs.route"));
+// logs saveapi endpoint
+appRoutes.use("/logs", require("./Modules/logs"));
+
+// img upload
+appRoutes.use("/tmp", require("./Modules/uploads"));
 
 module.exports = appRoutes;

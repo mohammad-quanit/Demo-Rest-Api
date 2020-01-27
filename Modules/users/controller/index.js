@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const verifyToken = require('../../middlewares/jwt');
+const verifyToken = require('../../../middlewares/jwt');
 const userService = require('../services');
 
 // Users post request
