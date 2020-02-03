@@ -1,18 +1,15 @@
-const appRoutes = require('express')();
+const AppRoutes = require("express")();
 
-// main home route/endpoint
-appRoutes.use(require("./Modules/home/controller"));
+AppRoutes.use(require("./Modules/home/controller"));                  // main home route/endpoint
+AppRoutes.use("/logs", require("./Modules/logs"));                    // logs saveapi endpoint
+AppRoutes.use("/tmp", require("./Modules/uploads"));                  // img upload
 
-// User Authentication routes/endpoints
-appRoutes.use('/users', require('./Modules/users/controller'));
+AppRoutes.use("/users", require("./Modules/users/controller"));       // User Authentication routes/endpoints
+AppRoutes.use("/todos", require("./Modules/todos/controllers"));      // todos routes endpoint / route
 
-// todos routes endpoint / route
-appRoutes.use('/todos', require('./Modules/todos/controllers'));
-
-// logs saveapi endpoint
-appRoutes.use("/logs", require("./Modules/logs"));
-
-// img upload
-appRoutes.use("/tmp", require("./Modules/uploads"));
-
-module.exports = appRoutes;
+AppRoutes.use("/conversations", require("./Modules/Chat/controller")) // conversations 
+  
+// AppRoutes.use("/conversation/:id", require("./Modules/Chat/controller"))
+// AppRoutes.use("/conversation", require("./Modules/Chat/controller"))
+// AppRoutes.use("/send-message/:conversationId", require("./Modules/Chat/controller"))
+module.exports = AppRoutes;

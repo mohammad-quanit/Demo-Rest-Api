@@ -17,8 +17,11 @@ const verifyToken = (req, res, next) => {
       // We call next to pass execution to the subsequent middleware
       next();
     } catch (error) {
+      res
+      .status(401)
+      .send({ error: true, message: 'Wrong Token.' });
       // Throw an error just in case anything goes wrong with verification
-      throw new Error(err);
+      // throw new Error(err);
     }
   } else {
     res

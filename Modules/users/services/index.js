@@ -6,6 +6,17 @@ async function fetchUsers() {
   return await Users.find();
 }
 
+
+async function fetchAdmins() {
+  return await Users.find({ "role": "admin" });
+}
+
+
+async function fetchSingleUser(id) {
+  return await Users.findById(id);
+}
+
+
 async function createUser(userParam) {
   // check if user exists
   if (await Users.findOne({ email: userParam.email }))
@@ -15,12 +26,12 @@ async function createUser(userParam) {
   if (userParam.password) {
     user.password = bcrypt.hashSync(userParam.password, 10);
   }
-  let token = jwt.sign(user.toObject(), process.env.JWT_SECRET_KEY, {
-    expiresIn: '1d'
-  });
-  let { role, _id, username, email } = await user.save();
-  return { _id, role, username, email, token };
+  let token = jwt.sign(user.toObject(), process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
+  let { role, _id, username, email, isOnline } = await user.save();
+  return { _id, role, username, email, token, isOnline };
 }
+
+
 
 async function loginUser(userParam) {
   let user = await Users.findOne({ email: userParam.email });
@@ -39,6 +50,8 @@ async function loginUser(userParam) {
 
 module.exports = {
   fetchUsers,
+  fetchAdmins,
+  fetchSingleUser,
   createUser,
   loginUser
 };
