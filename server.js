@@ -24,9 +24,9 @@ app.use(headers);
 // global error handler
 app.use(errorHandler);
 
-connection.once('open', () =>
-  console.log('Successfully connected to Mongoose')
-);
+connection
+  .once('open', () => console.log('Successfully connected to Mongoose'))
+  .catch(err => console.log("ERROR ", err.message));
 
 app.use('/tmp/upload', express.static(__dirname + '/tmp/upload/'));
 

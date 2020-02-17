@@ -6,7 +6,7 @@ const verifyToken = (req, res, next) => {
   let result;
   if (authorizationHeader) {
     const token = req.headers.authorization.split(' ')[1]; //bearer token
-    console.log(token);
+    // console.log(token);
     try {
       // verify makes sure that the token hasn't expired and has been issued by us
       result = jwt.verify(token, process.env.JWT_SECRET_KEY);

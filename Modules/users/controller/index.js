@@ -3,7 +3,7 @@ const verifyToken = require('../../../middlewares/jwt');
 const userService = require('../services');
 
 // Users requests
-router.get('/', verifyToken, users);
+router.get('/', users);
 router.get('/admins', fetchAdmins);
 router.get('/:userid', getUser);
 

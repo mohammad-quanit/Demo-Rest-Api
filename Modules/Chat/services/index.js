@@ -1,54 +1,137 @@
 const Conversation = require('../models/conversation');
-const Message = require('../models/message');
+const Messages = require('../models/message');
 
 /**
  * Get conversations list.
  * @returns {Conversation[]}
  */
-async function list(req, res, next) {
-  return await Conversation.find({ participants: { $in: [req.authUser.id] } })
-    .select('_id, participants')
-    .exec((err, conversations) => {
-      if (err) {
-        res.send({ error: err });
-        return next(err);
-      }
-      return res.status(200).json(conversations);
-    });
+async function getConversations(req, res, next) {
+  try {
+    let conversations = await Conversation.find({
+      participants: { $in: [req.query.id] }
+    })
+      .select('_id, participants')
+      .exec();
+    return conversations;
+  } catch (error) {
+    return next(error);
+  }
 }
-// function list(req, res, next) {
-//   Conversation.find({ participants: { $in: [req.authUser.id] } })
-//     .select('_id, participants')
-//     .exec((err, conversations) => {
-//       if (err) {
-//         res.send({ error: err });
-//         return next(err);
-//       }
 
-//       return res.status(200).json(conversations);
-//     });
-// }
+/**
+ * Get conversation
+ * @returns {Conversation}
+ */
+async function getConversation(req, res, next) {
+  try {
+    let conversation = Conversation.findOne({
+      _id: req.params.id,
+      participants: { $in: [req.query.id] }
+    });
+    return conversation;
+    // if (conversation) {
+    //   Message.find({ conversationId: conversation._id })
+    //     .select('createdAt body author')
+    //     .then(messages => {
+    //       return res.status(200).json(messages);
+    //     });
+    // }
+  } catch (error) {
+    console.log('this is service 2 error', error);
+    return next(error);
+  }
+}
 
-// /**
-//  * Get conversation
-//  * @returns {Conversation}
-//  */
-// function get(req, res, id) {
-//   Conversation.findOne({
-//     _id: req.params.id,
-//     participants: {
-//       $in: [req.authUser.id]
-//     }
-//   }).then(conversation => {
-//     if (conversation) {
-//       Message.find({ conversationId: conversation._id })
-//         .select('createdAt body author')
-//         .then(messages => {
-//           return res.status(200).json(messages);
-//         });
-//     }
-//   });
-// }
+/**
+ * Create conversation
+ * @returns {Conversation}
+ */
+async function create(req, res, next) {
+  if (!req.body.recipient && !req.body.id)
+    return next({ error: 'Please choose a valid recipient for your message.' });
+
+    let existingConversation = await Conversation.findOne({ participants: { $all: [req.body.id, req.body.recipient] }});
+    console.log('ye exiting convo', existingConversation);
+
+    if(existingConversation) {
+      try {
+        let messages = await Messages.find({ conversationId: existingConversation._id }).select('createdAt body author');
+        const data = existingConversation.toJSON();
+        data.messages = messages;
+        console.log('ye services ma ha...', data);
+        return data;
+      } catch (error) {
+        console.log('existing error', error);
+        return error
+      }
+      
+    } else {
+
+      try {
+        const conversation = new Conversation({ participants: [req.body.id, req.body.recipient] });
+        let newConversation = await conversation.save();
+        console.log('ye initial pahase convo', newConversation);
+        // Default Welcome message
+         const message = new Messages({
+          conversationId: newConversation._id,
+          body: 'I am inviting you to start conversation with me', // later on we can set permission to accpet/declient chat invitation
+          author: req.body.id
+        });
+        try {
+          let msg = await message.save();
+          console.log('ye initial pahase msg', msg);
+          return msg;
+        } catch (error) {
+          console.log('msg error', error);
+          return next(error);
+        }
+      } catch (error) {
+        console.log('new convo error', error);
+        return next(error);
+      }
+  }
+
+  
+
+  // return Conversation.findOne(
+  //   { participants: { $all: [req.body.id, req.body.recipient] } },
+  //   (err, existingConversation) => {
+  //     console.log('existing msgs hain....', existingConversation);
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     if (existingConversation) {
+  //       Messages.find({ conversationId: existingConversation._id })
+  //         .select('createdAt body author')
+  //         .then(messages => {
+  //           const data = existingConversation.toJSON();
+  //           data.messages = messages;
+  //           console.log('ye services ma ha...', data);
+  //           return data;
+  //         });
+  //     } else {
+  //       const conversation = new Conversation({
+  //         participants: [req.body.id, req.body.recipient]
+  //       });
+
+  //       conversation.save((err, newConversation) => {
+  //         if (err) return next(err);
+
+  //         // Default Welcome message
+  //         const message = new Messages({
+  //           conversationId: newConversation._id,
+  //           body: 'I am inviting you to start conversation with me', // later on we can set permission to accpet/declient chat invitation
+  //           author: req.body.id
+  //         });
+  //         message.save((err, newMessage) => {
+  //           if (err) return next(err);
+  //           return newConversation;
+  //         });
+  //       });
+  //     }
+  //   }
+  // );
+}
 
 // /**
 //  * Create conversation
@@ -137,8 +220,8 @@ async function list(req, res, next) {
 // }
 
 module.exports = {
-  list
-  // get,
-  // create,
+  getConversations,
+  getConversation,
+  create
   // createMessage
 };

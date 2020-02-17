@@ -5,7 +5,7 @@ function socketEvents (io) {
 
   // Set socket.io listeners.
   io.on('connection', (socket) => {
-    console.log("connected....")
+    // console.log("connected....")
     socket.on('disconnect', () => {
       let userId = userSockets[socket.id]
       delete userSockets[socket.id]
@@ -28,6 +28,7 @@ function socketEvents (io) {
     })
 
     socket.on('enter-conversation', (conversation) => {
+      console.log('convo ayeeee......', conversation)
       socket.join(conversation)
     })
 
@@ -37,7 +38,11 @@ function socketEvents (io) {
 
     socket.on('send-message', function (message) {
       socket.broadcast.to(message.conversationId).emit('new-message', message)
-    })
+    });
+
+    socket.on("log-out", id => {
+      console.log("id ayeee....", id)
+    });
   })
 }
 
